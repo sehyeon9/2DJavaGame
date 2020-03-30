@@ -7,6 +7,8 @@ public enum ID {
     TILE,
     PORTAL,
     CONTAINER,
-    MARBLE
+    JAR,
+    MARBLE,
+    ITEM
     
 }

@@ -28,9 +28,8 @@ public class Game implements Runnable {
     
     public Game(int mapID) {
         img = new Images();
-        Enemy enemy = new Enemy(150, 250, 60, 60, true, ID.ENEMY, img.getBoss(), this);
         Player player = new Player(150, 150, 20, 20, true, ID.PLAYER, img.getPlayer(), this);
-        manager = new GameManager(player, enemy, this);
+        manager = new GameManager(player, this);
         gameOver = false;
         bgm = new BackgroundMusic("./bgm/ShatteredTime.wav");
         this.mapID = mapID;
@@ -96,6 +95,9 @@ public class Game implements Runnable {
             drawMap2();
         } else if (mapID == 3) {
             drawMap3();
+            Enemy enemy = new Enemy(150, 250, 60, 60, true, ID.ENEMY, img.getBoss(),
+                    this, 1000);
+            manager.addEnemy(enemy);
         } else if (mapID == 4) {
             drawMap4();
         } else if (mapID == 5) {
@@ -197,16 +199,16 @@ public class Game implements Runnable {
         drawTilesBy(TILE_SIZE, TILE_SIZE * 2, display.getDisplayWidth() - TILE_SIZE, 
                 display.getDisplayHeight() - TILE_SIZE, false, ID.TILE, img.getFloor());
         //top left jars
-        manager.addOneTile(new Tile(TILE_SIZE, TILE_SIZE * 2, true, ID.TILE, img.getJar()));
-        manager.addOneTile(new Tile(TILE_SIZE * 2, TILE_SIZE * 2, true, ID.TILE, img.getJar()));
-        manager.addOneTile(new Tile(TILE_SIZE, TILE_SIZE * 3,true, ID.TILE, img.getJar()));
+        manager.addOneTile(new Tile(TILE_SIZE, TILE_SIZE * 2, true, ID.JAR, img.getJar()));
+        manager.addOneTile(new Tile(TILE_SIZE * 2, TILE_SIZE * 2, true, ID.JAR, img.getJar()));
+        manager.addOneTile(new Tile(TILE_SIZE, TILE_SIZE * 3,true, ID.JAR, img.getJar()));
         //bottom right jars
         manager.addOneTile(new Tile(display.getDisplayWidth() - (TILE_SIZE * 2), display.getDisplayHeight() - (TILE_SIZE * 2),
-                true, ID.TILE, img.getJar()));
+                true, ID.JAR, img.getJar()));
         manager.addOneTile(new Tile(display.getDisplayWidth() - (TILE_SIZE * 3), display.getDisplayHeight() - (TILE_SIZE * 2),
-                true, ID.TILE, img.getJar()));
+                true, ID.JAR, img.getJar()));
         manager.addOneTile(new Tile(display.getDisplayWidth() - (TILE_SIZE * 2), display.getDisplayHeight() - (TILE_SIZE * 3),
-                true, ID.TILE, img.getJar()));
+                true, ID.JAR, img.getJar()));
         //portal between left vertical walls to map 1
         //manager.addOneTile(new Tile(0, display.getDisplayHeight() / 3, TILE_SIZE, TILE_SIZE, false, ID.PORTAL, img.getPortal()));
     }

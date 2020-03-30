@@ -114,4 +114,10 @@ public class Tile extends GameObject {
     public BufferedImage getTile() {
         return img;
     }
+    
+    public void setTileProperty(boolean isWall, ID id, BufferedImage img) {
+        this.isWall = isWall;
+        this.id = id;
+        this.img = img;
+    }
 }

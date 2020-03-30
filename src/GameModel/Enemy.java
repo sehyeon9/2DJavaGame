@@ -15,8 +15,9 @@ public class Enemy extends GameObject {
     private Game game;
     private static final double MOVE_STEP = 0.02;
     private boolean facingLeft;
+    private int health;
 
-    public Enemy(int x, int y, int width, int height, boolean isWall, ID id, BufferedImage img, Game game) {
+    public Enemy(int x, int y, int width, int height, boolean isWall, ID id, BufferedImage img, Game game, int health) {
         this.x = x;
         this.y = y;
         this.width = width;
@@ -26,6 +27,7 @@ public class Enemy extends GameObject {
         this.img = img;
         this.game = game;
         facingLeft = false;
+        this.health = health;
     }
 
     @Override
@@ -114,5 +116,17 @@ public class Enemy extends GameObject {
     
     public int getHeight() {
         return height;
+    }
+    
+    public void setHealth(int health) {
+        this.health = health;
+    }
+    
+    public int getHealth() {
+        return health;
+    }
+    
+    public boolean isAlive() {
+        return health > 0;
     }
 }
