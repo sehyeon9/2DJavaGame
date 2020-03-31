@@ -1,14 +1,10 @@
 package GameModel;
 
 import GameModel.Inventory.Inventory;
-import GameModel.Inventory.Item;
 import Identifier.ID;
-import Identifier.Item.Type;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.util.LinkedList;
-import java.util.List;
 
 public class Player extends GameObject {
     
@@ -58,7 +54,6 @@ public class Player extends GameObject {
     @Override
     public void update() {
         updateUserPosition();
-        interactWithTiles();
     }
     
     private void updateUserPosition() {
@@ -75,77 +70,6 @@ public class Player extends GameObject {
             x += MOVE_STEP;
         }
     }
-    
-    private void interactWithTiles() {
-        for (Tile tile : game.getManager().getTiles()) {
-            checkForCollision(tile);
-            //TODO: have player move to any neighboring maps instead of one
-            if (tile.getID() == ID.PORTAL) {
-                if (getBounds().intersects(tile.getBounds()) && game.getMapID() == 1) {
-                    setX(10);
-                    setY(game.getDisplay().getDisplayHeight() / 3);
-                    game.changeMap(2);
-                } else if (getBounds().intersects(tile.getBounds()) && game.getMapID() == 2) {
-                    setX(20);
-                    setY(game.getDisplay().getDisplayHeight() / 3);
-                    game.changeMap(3);
-                } else if (getBounds().intersects(tile.getBounds()) && game.getMapID() == 3) {
-                    setX(20);
-                    setY(game.getDisplay().getDisplayHeight() - 40);
-                    game.changeMap(4);
-                }
-            }
-            interactWithItem();
-            interactWithJars(tile);
-        }
-    }
-
-    /**
-     * The reason for returning a list of items as opposed to a single item is so that we want to make
-     * it flexible how many items each tiles with specific ID can drop
-     */
-    private void interactWithJars(Tile tile) {
-        if (getBounds().intersects(tile.getBounds()) && tile.getID() == ID.JAR && game.getKeyHandler().interact) {
-            tile.setTileProperty(false, ID.TILE, game.getImg().getFloor());
-            Item weapon = new Item(tile.getX(), tile.getY(), true, Type.Weapon, "sabre", game.getImg().getSabre());
-            game.getManager().addItem(weapon);
-        }
-    }
-    
-    private void interactWithItem() {
-        List<Item> removedItems = new LinkedList<>();
-        for (Item item : game.getManager().getItems()) {
-            checkForCollision(item);
-            if (getBounds().intersects(item.getBounds()) && game.getKeyHandler().interact) {
-                if (item.getImg() == game.getImg().getSabre()) {
-                    inventory.addItem(item);
-                    removedItems.add(item);
-                }
-            }
-        }
-        for (Item item : removedItems) {
-            if (game.getManager().getItems().contains(item)) {
-                game.getManager().removeItem(item);
-            }
-        }
-    }
-    
-    private void checkForCollision(GameObject object) {
-        if (object.isWall()) {
-            if (getBoundsTop().intersects(object.getBounds())) {
-                y += MOVE_STEP;
-            }
-            if (getBoundsBot().intersects(object.getBounds())) {
-                y -= MOVE_STEP;
-            }
-            if (getBoundsLeft().intersects(object.getBounds())) {
-                x += MOVE_STEP;
-            }
-            if (getBoundsRight().intersects(object.getBounds())) {
-                x -= MOVE_STEP;
-            }
-        }
-    }
 
     @Override
     public int getX() {
@@ -155,6 +79,14 @@ public class Player extends GameObject {
     @Override
     public int getY() {
         return (int) y;
+    }
+    
+    public double getXWithAccuracy() {
+        return x;
+    }
+    
+    public double getYWithAccuracy() {
+        return y;
     }
 
     @Override
@@ -169,6 +101,14 @@ public class Player extends GameObject {
 
     @Override
     public void setY(int y) {
+        this.y = y;
+    }
+    
+    public void setX(double x) {
+        this.x = x;
+    }
+    
+    public void setY(double y) {
         this.y = y;
     }
 
