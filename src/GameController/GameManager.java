@@ -126,13 +126,19 @@ public class GameManager {
             //TODO: have player move to any neighboring maps instead of one
             if (tile.getID() == ID.PORTAL) {
                 if (player.getBounds().intersects(tile.getBounds()) && game.getMapID() == 1) {
-                    player.setX(10);
+                    player.setX(21);
                     player.setY(game.getDisplay().getDisplayHeight() / 3);
                     game.changeMap(2);
                 } else if (player.getBounds().intersects(tile.getBounds()) && game.getMapID() == 2) {
-                    player.setX(20);
-                    player.setY(game.getDisplay().getDisplayHeight() / 3);
-                    game.changeMap(3);
+                    if (game.getPortals().getMappedPortal(tile) == 3) {
+                        player.setX(21);
+                        player.setY(game.getDisplay().getDisplayHeight() / 3);
+                        game.changeMap(3);
+                    } else if (game.getPortals().getMappedPortal(tile) == 1) {
+                        player.setX(game.getDisplay().getDisplayWidth() - 41);
+                        player.setY(game.getDisplay().getDisplayHeight() / 3);
+                        game.changeMap(1);
+                    }
                 } else if (player.getBounds().intersects(tile.getBounds()) && game.getMapID() == 3) {
                     player.setX(20);
                     player.setY(game.getDisplay().getDisplayHeight() - 40);
@@ -237,23 +243,13 @@ public class GameManager {
     private boolean isPlayerArmed() {
         return player.getInventory().getUniqueItems().contains("sabre");
     }
-
-    /**
-     * We only want to unlock marble feature once, and not constantly unlock it when it's already unlocked,
-     * creating unnecessary work; therefore, we use marbleUnlocked variable. We could run it every time, as it is 
-     * really simple right now, but that could change in the future.
-     */
+    
     private void unlockMarbleFeature() {
         if (!marbleUnlocked) {
             marbleUnlocked = true;
         }
     }
-
-    /**
-     * Marbles do magical things. For this marble specifically, it transports you to an area where you can't get to
-     * alone, and that area has a treasure chest that holds half of a key to unlocking the pathway to the boss.
-     * The other half you say? Well that's a mystery you need to unravel playing the game!
-     */
+    
     private void playerInteractWithMarble(Tile tile) {
         if (player.getBounds().intersects(tile.getBounds()) && tile.getID() == ID.MARBLE && marbleUnlocked
                 && game.getKeyHandler().interact && game.getMapID() == 1) {

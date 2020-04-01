@@ -88,7 +88,7 @@ public class Images {
     private BufferedImage genesis;
     
     public Images() {
-        player = ImageLoader.loadImage("./img/LinkStandingLeft.png");
+        player = ImageLoader.loadImage("./img/Player/LinkStandingLeft.png");
         boss = ImageLoader.loadImage("./img/boss.png");
         wall01 = ImageLoader.loadImage("./img/RegularBlueWall/wall01.png");
         wall02 = ImageLoader.loadImage("./img/RegularBlueWall/wall02.png");
@@ -112,8 +112,8 @@ public class Images {
         silverSquare = ImageLoader.loadImage("./img/silversquarepressed.png");
         voidSpace = ImageLoader.loadImage("./img/voidspace.png");
         lockedDoor = ImageLoader.loadImage("./img/doortoboss.png");
-        laserFacingLeft = ImageLoader.loadImage("./img/WallLaser/LaserFacingLeft.png");
-        laserFacingRight = ImageLoader.loadImage("./img/WallLaser/LaserFacingRight.png");
+        laserFacingLeft = ImageLoader.loadImage("./img/WallLaser/LaserFaceLeft.png");
+        laserFacingRight = ImageLoader.loadImage("./img/WallLaser/LaserFaceRight.png");
         
         playerStandingLeft = ImageLoader.loadImage("./img/Player/LinkStandingLeft.png");
         playerStandingRight = ImageLoader.loadImage("./img/Player/LinkStandingRight.png");

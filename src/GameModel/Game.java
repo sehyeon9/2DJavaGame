@@ -6,6 +6,7 @@ import GameView.BackgroundMusic;
 import GameView.Display;
 import GameView.Images;
 import Identifier.ID;
+import Identifier.Portal.PortalID;
 
 import java.awt.*;
 import java.awt.image.BufferStrategy;
@@ -25,6 +26,7 @@ public class Game implements Runnable {
 
     private int mapID;
     private boolean mapIsDisplayed;
+    private PortalID portals;
     
     public Game(int mapID) {
         img = new Images();
@@ -35,6 +37,7 @@ public class Game implements Runnable {
         this.mapID = mapID;
         keyHandler = new KeyHandler();
         mapIsDisplayed = false;
+        portals = new PortalID();
     }
     
     private void setupGame() {
@@ -123,25 +126,31 @@ public class Game implements Runnable {
             e.printStackTrace();
         }
         clearMap();
+        
         //draws top part of map
         drawTilesHorizontally(0, TILE_SIZE * 2, display.getDisplayWidth(), true, ID.TILE, img.getWall01());
+        
         //floor
         drawTilesBy(0, TILE_SIZE * 3, display.getDisplayWidth(), display.getDisplayHeight() - TILE_SIZE,
                     false, ID.TILE, img.getFloor());
+        
         //draws bottom part of map
         drawTilesHorizontally(0, display.getDisplayHeight() - TILE_SIZE, display.getDisplayWidth() - (TILE_SIZE * 5),
                                 true, ID.TILE, img.getWall03());
         drawTilesHorizontally(display.getDisplayWidth() - (TILE_SIZE * 5), display.getDisplayHeight() - TILE_SIZE,
                                 display.getDisplayWidth(), true, ID.TILE, img.getWall02());
+        
         //the right bounds
         drawTilesVertically(display.getDisplayWidth() - TILE_SIZE, TILE_SIZE * 2, display.getDisplayHeight() / 3,
                             true, ID.TILE, img.getWall01());
         drawTilesVertically(display.getDisplayWidth() - TILE_SIZE, (display.getDisplayHeight() / 3) + (TILE_SIZE * 2),
                             display.getDisplayHeight(), true, ID.TILE, img.getWall01());
+        
         //for left bounds
         drawTilesVertically(0, TILE_SIZE * 2, display.getDisplayHeight() / 3, true, ID.TILE, img.getWall01());
         drawTilesVertically(0, (display.getDisplayHeight() / 3) + (TILE_SIZE * 2), display.getDisplayHeight(),
                             true, ID.TILE, img.getWall01());
+        
         //draw bird and laser for top bound
         manager.addOneTile(new Tile(display.getDisplayWidth() / 4, TILE_SIZE * 2, true, ID.TILE,
                  img.getLaserFaceDown()));
@@ -149,59 +158,86 @@ public class Game implements Runnable {
                  img.getBird()));
         manager.addOneTile(new Tile(3 * (display.getDisplayWidth() / 4), TILE_SIZE * 2, true,
                  ID.TILE, img.getLaserFaceDown()));
+        
         //draw two statues in the middle
         manager.addOneTile(new Tile(display.getDisplayWidth() / 4, display.getDisplayHeight() / 4,
                 true, ID.TILE, img.getStatue()));
         manager.addOneTile(new Tile(3 * (display.getDisplayWidth() / 4), display.getDisplayHeight() / 4,
                 true, ID.TILE, img.getStatue()));
+        
         //draw marble in between the two statues
         manager.addOneTile(new Tile(display.getDisplayWidth() / 2, display.getDisplayHeight() / 4,
                 true, ID.TILE, img.getMarbleSwitch()));
+        
         //draw the sky-blue portal to the right
-        manager.addOneTile(new Tile(display.getDisplayWidth() - TILE_SIZE, display.getDisplayHeight() / 3,
-                false, ID.PORTAL, img.getPortal()));
+        Tile tile = new Tile(display.getDisplayWidth() - TILE_SIZE, display.getDisplayHeight() / 3,
+                false, ID.PORTAL, img.getPortal());
+        manager.addOneTile(tile);
+        portals.addPortal(tile);
+        portals.addPortalMapping(tile, 2);
     }
     
     /** portal to map 3 is in 20, 380 and portal to map 1 is in 0, 133 */
     private void drawMap2() {
         //top left corner wall
         manager.addOneTile(new Tile(0, TILE_SIZE, true, ID.TILE, img.getWall01()));
+        
         //top horizontal wall
         drawTilesHorizontally(TILE_SIZE, TILE_SIZE, display.getDisplayWidth() - TILE_SIZE, true,
                 ID.TILE, img.getWall04());
+        
         //top right corner wall
         manager.addOneTile(new Tile(display.getDisplayWidth() - TILE_SIZE, TILE_SIZE, true, ID.TILE,
                 img.getWall02()));
+        
         //left vertical wall
         drawTilesVertically(0, TILE_SIZE * 2, display.getDisplayHeight() / 3, true, ID.TILE,
                 img.getWall03());
         drawTilesVertically(0, (display.getDisplayHeight() / 3) + (TILE_SIZE * 2), display.getDisplayHeight(),
                             true, ID.TILE, img.getWall03());
+        
         //left floor by portal between vertical walls
         manager.addOneTile(new Tile(0, (display.getDisplayHeight() / 3) + TILE_SIZE, false, ID.TILE,
                 img.getFloor()));
+        
         //right vertical wall
         drawTilesVertically(display.getDisplayWidth() - TILE_SIZE, TILE_SIZE * 2, 
                 display.getDisplayHeight() - TILE_SIZE, true, ID.TILE, img.getWall03());
+        
         //bottom right corner wall
         manager.addOneTile(new Tile(display.getDisplayWidth() - TILE_SIZE, display.getDisplayHeight() - TILE_SIZE,
                 true, ID.TILE, img.getWall01()));
+        
         //bottom portal to map 3
-        manager.addOneTile(new Tile(TILE_SIZE, display.getDisplayHeight() - TILE_SIZE, false,
-                ID.PORTAL, img.getPortal()));
+        Tile portalToMap3 = new Tile(TILE_SIZE, display.getDisplayHeight() - TILE_SIZE, false,
+                ID.PORTAL, img.getPortal());
+        manager.addOneTile(portalToMap3);
+        portals.addPortal(portalToMap3);
+        portals.addPortalMapping(portalToMap3, 3);
+        
+        //portal between left vertical walls to map 1
+        Tile portalToMap1 = new Tile(0, display.getDisplayHeight() / 3, false, ID.PORTAL, img.getPortal());
+        manager.addOneTile(portalToMap1);
+        portals.addPortal(portalToMap1);
+        portals.addPortalMapping(portalToMap1, 1);
+        
         //bottom floor between horizontal walls
         manager.addOneTile(new Tile(TILE_SIZE * 2, display.getDisplayHeight() - TILE_SIZE, 
                 false, ID.TILE, img.getFloor()));
+        
         //bottom horizontal wall
         drawTilesHorizontally(TILE_SIZE * 3, display.getDisplayHeight() - TILE_SIZE, 
                 display.getDisplayWidth() - TILE_SIZE, true, ID.TILE, img.getWall04());
+        
         //floor
         drawTilesBy(TILE_SIZE, TILE_SIZE * 2, display.getDisplayWidth() - TILE_SIZE, 
                 display.getDisplayHeight() - TILE_SIZE, false, ID.TILE, img.getFloor());
+        
         //top left jars
         manager.addOneTile(new Tile(TILE_SIZE, TILE_SIZE * 2, true, ID.JAR, img.getJar()));
         manager.addOneTile(new Tile(TILE_SIZE * 2, TILE_SIZE * 2, true, ID.JAR, img.getJar()));
         manager.addOneTile(new Tile(TILE_SIZE, TILE_SIZE * 3,true, ID.JAR, img.getJar()));
+        
         //bottom right jars
         manager.addOneTile(new Tile(display.getDisplayWidth() - (TILE_SIZE * 2), display.getDisplayHeight() - (TILE_SIZE * 2),
                 true, ID.JAR, img.getJar()));
@@ -209,8 +245,6 @@ public class Game implements Runnable {
                 true, ID.JAR, img.getJar()));
         manager.addOneTile(new Tile(display.getDisplayWidth() - (TILE_SIZE * 2), display.getDisplayHeight() - (TILE_SIZE * 3),
                 true, ID.JAR, img.getJar()));
-        //portal between left vertical walls to map 1
-        //manager.addOneTile(new Tile(0, display.getDisplayHeight() / 3, TILE_SIZE, TILE_SIZE, false, ID.PORTAL, img.getPortal()));
     }
     
     /** portal to map 2 is in 20, 20 and to map 4 is in 380, 360 */
@@ -503,6 +537,10 @@ public class Game implements Runnable {
     
     public Display getDisplay() {
         return display;
+    }
+    
+    public PortalID getPortals() {
+        return portals;
     }
     
 }
