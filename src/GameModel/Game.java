@@ -19,6 +19,7 @@ public class Game implements Runnable {
     private GameManager manager;
     private boolean gameOver;
     private KeyHandler keyHandler;
+    private Enemy enemy;
     
     private static Images img;
     private static BackgroundMusic bgm;
@@ -38,6 +39,8 @@ public class Game implements Runnable {
         keyHandler = new KeyHandler();
         mapIsDisplayed = false;
         portals = new PortalID();
+        enemy = new Enemy(150, 250, 60, 60, true, ID.ENEMY, img.getBoss(),
+                this, 1000);
     }
     
     private void setupGame() {
@@ -98,9 +101,9 @@ public class Game implements Runnable {
             drawMap2();
         } else if (mapID == 3) {
             drawMap3();
-            Enemy enemy = new Enemy(150, 250, 60, 60, true, ID.ENEMY, img.getBoss(),
-                    this, 1000);
-            manager.addEnemy(enemy);
+            if (!manager.getEnemies().contains(enemy)) {
+                manager.addEnemy(enemy);
+            }
         } else if (mapID == 4) {
             drawMap4();
         } else if (mapID == 5) {
@@ -167,7 +170,7 @@ public class Game implements Runnable {
         
         //draw marble in between the two statues
         manager.addOneTile(new Tile(display.getDisplayWidth() / 2, display.getDisplayHeight() / 4,
-                true, ID.TILE, img.getMarbleSwitch()));
+                true, ID.MARBLE, img.getMarbleSwitch()));
         
         //draw the sky-blue portal to the right
         Tile tile = new Tile(display.getDisplayWidth() - TILE_SIZE, display.getDisplayHeight() / 3,
@@ -248,14 +251,22 @@ public class Game implements Runnable {
     }
     
     /** portal to map 2 is in 20, 20 and to map 4 is in 380, 360 */
+    //TODO when player activates marble and is teleported from map 1 to map 3, the area is too small and causing bugs
+    //TODO increase that area and allow player to move around the enclosed area
     private void drawMap3() {
         //top left corner wall
         manager.addOneTile(new Tile(0, TILE_SIZE, true, ID.TILE, img.getWall01()));
+        
         //top horizontal wall should be very similar to bottom horizontal wall from drawMap02
-        manager.addOneTile(new Tile(TILE_SIZE, TILE_SIZE, false, ID.TILE, img.getPortal()));
+        //portal to map 2
+        Tile portalToMap2 = new Tile(TILE_SIZE, TILE_SIZE, false, ID.PORTAL, img.getPortal());
+        manager.addOneTile(portalToMap2);
+        portals.addPortal(portalToMap2);
+        portals.addPortalMapping(portalToMap2, 2);
         manager.addOneTile(new Tile(TILE_SIZE * 2, TILE_SIZE, false, ID.TILE, img.getFloor()));
         drawTilesHorizontally(TILE_SIZE * 3, TILE_SIZE, display.getDisplayWidth() - TILE_SIZE, 
                 true, ID.TILE, img.getWall04());
+        
         //left vertical wall
         drawTilesVertically(0, TILE_SIZE * 2, display.getDisplayHeight() / 2,
                 true, ID.TILE, img.getWall03());
@@ -283,9 +294,14 @@ public class Game implements Runnable {
         //right floor by in between vertical walls
         manager.addOneTile(new Tile(display.getDisplayWidth() - TILE_SIZE, display.getDisplayHeight() - (TILE_SIZE * 3),
                 false, ID.TILE, img.getFloor()));
+        
         //portal to map 4
-        manager.addOneTile(new Tile(display.getDisplayWidth() - TILE_SIZE, display.getDisplayHeight() - (TILE_SIZE * 2),
-                false, ID.PORTAL, img.getPortal()));
+        Tile portalToMap4 = new Tile(display.getDisplayWidth() - TILE_SIZE, display.getDisplayHeight() - (TILE_SIZE * 2),
+                false, ID.PORTAL, img.getPortal());
+        manager.addOneTile(portalToMap4);
+        portals.addPortal(portalToMap4);
+        portals.addPortalMapping(portalToMap4, 4);
+        
         //bottom right corner wall
         manager.addOneTile(new Tile(display.getDisplayWidth() - TILE_SIZE, display.getDisplayHeight() - TILE_SIZE,
                 true, ID.TILE, img.getWall01()));
@@ -311,7 +327,6 @@ public class Game implements Runnable {
                 true, ID.MARBLE, img.getMarbleSwitch()));
         //the rest is floor
         //top left quadrilateral section of floor
-
         drawTilesBy(TILE_SIZE, TILE_SIZE * 2, (display.getDisplayWidth() / 2) - TILE_SIZE,
                 display.getDisplayHeight() / 2, false, ID.TILE, img.getFloor());
         //top mid quad section of floor
@@ -504,6 +519,8 @@ public class Game implements Runnable {
     
     private void clearMap() {
         manager.getTiles().clear();
+        portals = new PortalID();
+        manager.getItems().clear();
     }
     
     public int getMapID() {

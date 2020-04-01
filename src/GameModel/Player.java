@@ -158,6 +158,7 @@ public class Player extends GameObject {
         return new Rectangle(((int) Math.round(x)) + width - 1, ((int) Math.round(y)) + 1, 1, height - 1);
     }
 
+    //todo: ending scenario not yet implemented
     public void die() {
          x = 1200;
          y = 1200;

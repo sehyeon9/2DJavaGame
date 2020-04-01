@@ -58,7 +58,7 @@ public class GameManager {
             }
         }
     }
-    
+
     public void update() {
         for (Tile tile : tiles) {
             tile.update();
@@ -132,7 +132,7 @@ public class GameManager {
                 } else if (player.getBounds().intersects(tile.getBounds()) && game.getMapID() == 2) {
                     if (game.getPortals().getMappedPortal(tile) == 3) {
                         player.setX(21);
-                        player.setY(game.getDisplay().getDisplayHeight() / 3);
+                        player.setY(40);
                         game.changeMap(3);
                     } else if (game.getPortals().getMappedPortal(tile) == 1) {
                         player.setX(game.getDisplay().getDisplayWidth() - 41);
@@ -140,9 +140,15 @@ public class GameManager {
                         game.changeMap(1);
                     }
                 } else if (player.getBounds().intersects(tile.getBounds()) && game.getMapID() == 3) {
-                    player.setX(20);
-                    player.setY(game.getDisplay().getDisplayHeight() - 40);
-                    game.changeMap(4);
+                    if (game.getPortals().getMappedPortal(tile) == 4) {
+                        player.setX(21);
+                        player.setY(game.getDisplay().getDisplayHeight() - 40);
+                        game.changeMap(4);
+                    } else if (game.getPortals().getMappedPortal(tile) == 2) {
+                        player.setX(20);
+                        player.setY(game.getDisplay().getDisplayHeight() - 40);
+                        game.changeMap(2);
+                    }
                 }
             }
             playerInteractWithJars(tile);
@@ -253,7 +259,7 @@ public class GameManager {
     private void playerInteractWithMarble(Tile tile) {
         if (player.getBounds().intersects(tile.getBounds()) && tile.getID() == ID.MARBLE && marbleUnlocked
                 && game.getKeyHandler().interact && game.getMapID() == 1) {
-            game.changeMap(2);
+            game.changeMap(3);
             player.setX(game.getDisplay().getDisplayWidth() / 2);
             player.setY(game.getDisplay().getDisplayHeight() / 2);
         }
