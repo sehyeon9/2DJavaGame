@@ -9,6 +9,7 @@ public enum ID {
     CONTAINER,
     JAR,
     MARBLE,
-    ITEM
+    ITEM,
+    LOCK
     
 }

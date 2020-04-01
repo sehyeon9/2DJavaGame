@@ -10,7 +10,7 @@ import java.util.*;
 import java.util.List;
 
 /**
- * This object holds all the tiles and the player in one map so the programmer does not need to write multiple lines
+ * This object holds all the tiles, enemies, and the player in one map
  */
 public class GameManager {
     
@@ -19,8 +19,13 @@ public class GameManager {
     private List<Enemy> enemies;
     private List<Tile> tiles;
     private List<Item> items;
+    
+    private boolean guardianHasDied;
+    private boolean marbleUnlocked;
 
     private static final double MOVE_STEP = 0.1;
+    //This recoil number is 300 so it "bounces" the player back by some steps so they will have to move towards the enemy
+    //in order to engage the enemy again if hit
     private static final int RECOIL_WHEN_HIT_BY_ENEMY = 300;
     
     public GameManager(Player player, Game game) {
@@ -29,8 +34,14 @@ public class GameManager {
         this.enemies = new LinkedList<>();
         this.tiles = new LinkedList<>();
         this.items = new LinkedList<>();
+        guardianHasDied = false;
+        marbleUnlocked = false;
     }
-    
+
+    /**
+     * The tiles must come first because we want the map displayed on the screen 
+     * and everything else can go on top of it
+     */
     public void draw(Graphics g) {
         for (Tile tile : tiles) {
             tile.draw(g);
@@ -64,9 +75,12 @@ public class GameManager {
                     enemy.update();
                     playerInteractWithEnemies(enemy);
                 } else {
-
+                    guardianHasDied = true;
                 }
             }
+        }
+        if (guardianHasDied) {
+            unlockMarbleFeature();
         }
     }
     
@@ -87,7 +101,7 @@ public class GameManager {
     }
     
     public void removeEnemy(Enemy enemy) {
-        
+        enemies.remove(enemy);
     }
     
     public List<Enemy> getEnemies() {
@@ -126,6 +140,7 @@ public class GameManager {
                 }
             }
             playerInteractWithJars(tile);
+            playerInteractWithMarble(tile);
         }
     }
 
@@ -218,8 +233,34 @@ public class GameManager {
         }
     }
     
+    //TODO this only checks for one weapon so far as the others are not yet implemented
     private boolean isPlayerArmed() {
         return player.getInventory().getUniqueItems().contains("sabre");
+    }
+
+    /**
+     * We only want to unlock marble feature once, and not constantly unlock it when it's already unlocked,
+     * creating unnecessary work; therefore, we use marbleUnlocked variable. We could run it every time, as it is 
+     * really simple right now, but that could change in the future.
+     */
+    private void unlockMarbleFeature() {
+        if (!marbleUnlocked) {
+            marbleUnlocked = true;
+        }
+    }
+
+    /**
+     * Marbles do magical things. For this marble specifically, it transports you to an area where you can't get to
+     * alone, and that area has a treasure chest that holds half of a key to unlocking the pathway to the boss.
+     * The other half you say? Well that's a mystery you need to unravel playing the game!
+     */
+    private void playerInteractWithMarble(Tile tile) {
+        if (player.getBounds().intersects(tile.getBounds()) && tile.getID() == ID.MARBLE && marbleUnlocked
+                && game.getKeyHandler().interact && game.getMapID() == 1) {
+            game.changeMap(2);
+            player.setX(game.getDisplay().getDisplayWidth() / 2);
+            player.setY(game.getDisplay().getDisplayHeight() / 2);
+        }
     }
     
 }

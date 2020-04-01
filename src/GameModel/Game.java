@@ -385,7 +385,47 @@ public class Game implements Runnable {
     }
     
     private void drawMap5() {
-        
+        //top left corner wall
+        manager.addOneTile(new Tile(0, TILE_SIZE, true, ID.TILE, img.getWall01()));
+        //top horizontal walls, lasers, door
+        int xSpacing = display.getDisplayWidth() / 5;
+        drawTilesHorizontally(TILE_SIZE, TILE_SIZE, xSpacing, true, ID.TILE, img.getWall04());
+        manager.addOneTile(new Tile(xSpacing, TILE_SIZE, true, ID.TILE, img.getLaserFaceDown()));
+        drawTilesHorizontally(xSpacing + TILE_SIZE, TILE_SIZE, xSpacing * 2, 
+                            true, ID.TILE, img.getWall04());
+        manager.addOneTile(new Tile(xSpacing * 2, TILE_SIZE, true, ID.TILE, img.getLaserFaceDown()));
+        drawTilesHorizontally((xSpacing * 2) + TILE_SIZE, TILE_SIZE, xSpacing * 4,
+                            true, ID.TILE, img.getWall04());
+        manager.addOneTile(new Tile(xSpacing * 4, TILE_SIZE, true, ID.LOCK, img.getLockedDoor()));
+        drawTilesHorizontally((xSpacing * 4) + TILE_SIZE, TILE_SIZE, (xSpacing * 5) - TILE_SIZE,
+                            true, ID.TILE, img.getWall04());
+        //top right corner wall
+        manager.addOneTile(new Tile((xSpacing * 5) - TILE_SIZE, TILE_SIZE, true, ID.TILE, img.getWall01()));
+        //left vertical wall
+        int ySpacing = display.getDisplayHeight() / 5;
+        drawTilesVertically(0, TILE_SIZE * 2, ySpacing, true, ID.TILE, img.getWall03());
+        manager.addOneTile(new Tile(0, ySpacing, true, ID.TILE, img.getLaserFacingRight()));
+        drawTilesVertically(0, ySpacing + TILE_SIZE, ySpacing * 3, true, ID.TILE, img.getWall03());
+        manager.addOneTile(new Tile(0, ySpacing * 3, true, ID.TILE, img.getLaserFacingRight()));
+        drawTilesVertically(0, (ySpacing * 3) + TILE_SIZE, (ySpacing * 5) - TILE_SIZE, true,
+                                ID.TILE, img.getWall03());
+        //bottom left corner wall
+        manager.addOneTile(new Tile(0, display.getDisplayHeight() - TILE_SIZE, true,
+                                ID.TILE, img.getWall02()));
+        //bottom right corner wall
+        manager.addOneTile(new Tile(display.getDisplayWidth() - TILE_SIZE, display.getDisplayHeight() - TILE_SIZE,
+                                true, ID.TILE, img.getWall01()));
+        //right vertical wall
+        drawTilesVertically(display.getDisplayWidth() - TILE_SIZE, TILE_SIZE * 2, ySpacing, true, ID.TILE,
+                img.getWall03());
+        manager.addOneTile(new Tile(display.getDisplayWidth() - TILE_SIZE, ySpacing, true, ID.TILE,
+                img.getLaserFacingRight()));
+        drawTilesVertically(display.getDisplayWidth() - TILE_SIZE, ySpacing + TILE_SIZE, ySpacing * 3,
+                true, ID.TILE, img.getWall03());
+        manager.addOneTile(new Tile(display.getDisplayWidth() - TILE_SIZE, ySpacing * 3, true, ID.TILE,
+                img.getLaserFacingRight()));
+        drawTilesVertically(display.getDisplayWidth() - TILE_SIZE, (ySpacing * 3) + TILE_SIZE,
+                (ySpacing * 5) - TILE_SIZE, true, ID.TILE, img.getWall03());
     }
     
     private void drawMap6() {

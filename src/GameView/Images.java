@@ -27,8 +27,25 @@ public class Images {
     private BufferedImage silverSquareWall;
     private BufferedImage silverSquare;
     private BufferedImage voidSpace;
+    private BufferedImage lockedDoor;
+    
+    private BufferedImage laserFacingLeft;
+    private BufferedImage laserFacingRight;
 
-    /** this one for the most part should be add-ons, todo
+    /**
+     * The various forms of our player for animations
+     */
+    private BufferedImage playerStandingLeft;
+    private BufferedImage playerStandingRight;
+    private BufferedImage playerRunningLeft;
+    private BufferedImage playerRunningRight;
+    private BufferedImage playerRunningUpState1;
+    private BufferedImage playerRunningUpState2;
+    private BufferedImage playerRunningDownState1;
+    private BufferedImage playerRunningDownState2;
+    
+
+    /** this one for the most part should be add-ons
      * HP Recovery amount:
      * red potion - one half heart
      * orange potion - one full heart
@@ -38,7 +55,7 @@ public class Images {
     private BufferedImage orangePotion;
     private BufferedImage whitePotion;
 
-    /** TBD there is no Mana functionality as of yet so this is todo from scratch
+    /** TBD there is no Mana functionality as of yet
      * MP Recovery amount:
      * blue potion - 25
      * blue elixir - half of total
@@ -48,7 +65,7 @@ public class Images {
     private BufferedImage manaElixir;
     private BufferedImage powerElixir;
 
-    /** todo from scratch
+    /**
      * Weapon Damage output:
      * sabre - 30
      * soul singer - 65
@@ -58,7 +75,7 @@ public class Images {
     private BufferedImage soulSinger;
     private BufferedImage royalKatana;
 
-    /** if we want armor, we need to change current implementation of health todo
+    /** if we want armor, we need to change current implementation of health
      * Armor Damage reduction:
      * dragon robe - 20
      * bloody mail - 50
@@ -69,25 +86,22 @@ public class Images {
     private BufferedImage bloodySuit;
     private BufferedImage ancientBattleMail;
     private BufferedImage genesis;
-
-    /**
-     * 
-     */
+    
     public Images() {
-        player = ImageLoader.loadImage("./img/mario.png");
+        player = ImageLoader.loadImage("./img/LinkStandingLeft.png");
         boss = ImageLoader.loadImage("./img/boss.png");
-        wall01 = ImageLoader.loadImage("./img/wall01.png");
-        wall02 = ImageLoader.loadImage("./img/wall02.png");
+        wall01 = ImageLoader.loadImage("./img/RegularBlueWall/wall01.png");
+        wall02 = ImageLoader.loadImage("./img/RegularBlueWall/wall02.png");
         blackWall = ImageLoader.loadImage("./img/blackwall.png");
         keyButton = ImageLoader.loadImage("./img/keybutton.png");
-        laserFaceDown = ImageLoader.loadImage("./img/laserfacedown.png");
-        laserFaceUp = ImageLoader.loadImage("./img/laserfaceup.png");
+        laserFaceDown = ImageLoader.loadImage("./img/WallLaser/laserfacedown.png");
+        laserFaceUp = ImageLoader.loadImage("./img/WallLaser/laserfaceup.png");
         marbleSwitch = ImageLoader.loadImage("./img/marbleswitch.png");
         marbleSwitchSpace = ImageLoader.loadImage("./img/marbleswitchspace.png");
         treasureChest = ImageLoader.loadImage("./img/treasurechest.png");
         floor = ImageLoader.loadImage("./img/floor.png");
-        wall03 = ImageLoader.loadImage("./img/wall03.png");
-        wall04 = ImageLoader.loadImage("./img/wall04.png");
+        wall03 = ImageLoader.loadImage("./img/RegularBlueWall/wall03.png");
+        wall04 = ImageLoader.loadImage("./img/RegularBlueWall/wall04.png");
         bird = ImageLoader.loadImage("./img/bird.png");
         statue = ImageLoader.loadImage("./img/statue.png");
         portal = ImageLoader.loadImage("./img/portal1.png");
@@ -97,6 +111,18 @@ public class Images {
         silverSquareWall = ImageLoader.loadImage("./img/silversquarewall.png");
         silverSquare = ImageLoader.loadImage("./img/silversquarepressed.png");
         voidSpace = ImageLoader.loadImage("./img/voidspace.png");
+        lockedDoor = ImageLoader.loadImage("./img/doortoboss.png");
+        laserFacingLeft = ImageLoader.loadImage("./img/WallLaser/LaserFacingLeft.png");
+        laserFacingRight = ImageLoader.loadImage("./img/WallLaser/LaserFacingRight.png");
+        
+        playerStandingLeft = ImageLoader.loadImage("./img/Player/LinkStandingLeft.png");
+        playerStandingRight = ImageLoader.loadImage("./img/Player/LinkStandingRight.png");
+        playerRunningLeft = ImageLoader.loadImage("./img/Player/LinkRunningLeft.png");
+        playerRunningRight = ImageLoader.loadImage("./img/Player/LinkRunningRight.png");
+        playerRunningUpState1 = ImageLoader.loadImage("./img/Player/LinkRunningUpState1.png");
+        playerRunningUpState2 = ImageLoader.loadImage("./img/Player/LinkRunningUpState2.png");
+        playerRunningDownState1 = ImageLoader.loadImage("./img/Player/LinkRunningDownState1.png");
+        playerRunningDownState2 = ImageLoader.loadImage("./img/Player/LinkRunningDownState2.png");
         
         redPotion = ImageLoader.loadImage("./img/Item/Potion/Health/redpotion.png");
         orangePotion = ImageLoader.loadImage("./img/Item/Potion/Health/orangepotion.png");
@@ -200,6 +226,10 @@ public class Images {
     public BufferedImage getVoidSpace() {
         return voidSpace;
     }
+    
+    public BufferedImage getLockedDoor() {
+        return lockedDoor;
+    }
 
     public BufferedImage getPlayer() {
         return player;
@@ -260,5 +290,44 @@ public class Images {
     public BufferedImage getBoss() {
         return boss;
     }
-    
+
+    public BufferedImage getPlayerStandingLeft() {
+        return playerStandingLeft;
+    }
+
+    public BufferedImage getPlayerStandingRight() {
+        return playerStandingRight;
+    }
+
+    public BufferedImage getPlayerRunningLeft() {
+        return playerRunningLeft;
+    }
+
+    public BufferedImage getPlayerRunningRight() {
+        return playerRunningRight;
+    }
+
+    public BufferedImage getPlayerRunningUpState1() {
+        return playerRunningUpState1;
+    }
+
+    public BufferedImage getPlayerRunningUpState2() {
+        return playerRunningUpState2;
+    }
+
+    public BufferedImage getPlayerRunningDownState1() {
+        return playerRunningDownState1;
+    }
+
+    public BufferedImage getPlayerRunningDownState2() {
+        return playerRunningDownState2;
+    }
+
+    public BufferedImage getLaserFacingLeft() {
+        return laserFacingLeft;
+    }
+
+    public BufferedImage getLaserFacingRight() {
+        return laserFacingRight;
+    }
 }

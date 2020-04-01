@@ -18,6 +18,17 @@ public class Player extends GameObject {
     private BufferedImage[] healthBar;
     private Inventory inventory;
     
+    //TODO still in design process
+    //need to heavily depend on functions implemented in KeyHandler class
+    private BufferedImage[] playerAnimation;
+    private BufferedImage currentPlayerImage;
+    //TODO changing the game's health system so the player can have more game-realistic health
+    private int[] playerHealthRange;
+    private int currentHealth;
+    //TODO inventory and equipment should be different. If an item is equipped it should display on character. how?
+    /** For now, the item will sort of dangle by the character because I don't know how to draw the player holding item */
+    private Inventory equipment;
+    
     private static final double MOVE_STEP = 0.1;
     private static final int HEART_COUNT = 3;
     private static final int HEART_SIZE = 10;
