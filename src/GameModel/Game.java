@@ -154,6 +154,10 @@ public class Game implements Runnable {
         drawTilesVertically(0, TILE_SIZE * 2, display.getDisplayHeight() / 3, true, ID.TILE, img.getWall01());
         drawTilesVertically(0, (display.getDisplayHeight() / 3) + (TILE_SIZE * 2), display.getDisplayHeight(),
                             true, ID.TILE, img.getWall01());
+        Tile portalToMap10 = new Tile(0, display.getDisplayHeight() / 3, false, ID.PORTAL, img.getPortal());
+        manager.addOneTile(portalToMap10);
+        portals.addPortal(portalToMap10);
+        portals.addPortalMapping(portalToMap10, 10);
         
         //draw bird and laser for top bound
         manager.addOneTile(new Tile(display.getDisplayWidth() / 4, TILE_SIZE * 2, true, ID.TILE,
@@ -493,11 +497,100 @@ public class Game implements Runnable {
     }
     
     private void drawMap9() {
-        
+        //default grass layer
+        drawTilesBy(TILE_SIZE, TILE_SIZE * 2, display.getDisplayWidth() - (TILE_SIZE * 2), 
+                display.getDisplayHeight() - TILE_SIZE, false, ID.TILE, img.getGrass());
     }
     
+    //this is the non-dungeon map that connects the outer world to the dungeon
     private void drawMap10() {
+        int x = (display.getDisplayWidth() / 8) * 3; //when frame is 400x400 this is 150
+        //default sand layer
+        manager.addOneTile(new Tile(x - TILE_SIZE, TILE_SIZE * 2, false, ID.TILE, img.getSand()));
+        drawTilesBy(x - TILE_SIZE, TILE_SIZE * 3, display.getDisplayWidth() - TILE_SIZE,
+                display.getDisplayHeight() - TILE_SIZE, false, ID.TILE, img.getSand());
+        drawTilesHorizontally(TILE_SIZE, display.getDisplayHeight() - (TILE_SIZE * 2),
+                display.getDisplayWidth() - (TILE_SIZE * 2), false, ID.TILE, img.getSand());
+        drawTilesHorizontally(x + (TILE_SIZE * 4), TILE_SIZE * 2,
+                display.getDisplayWidth() - TILE_SIZE, false, ID.TILE, img.getSand());
         
+        //default dirt layer
+        drawTilesBy(TILE_SIZE, TILE_SIZE * 2, x - TILE_SIZE, 
+                display.getDisplayHeight() - (TILE_SIZE * 2), false, ID.TILE, img.getDirt());
+        
+        //top left corner
+        manager.addOneTile(new Tile(0, TILE_SIZE, true, ID.TILE, img.getBotRightOfTree()));
+        
+        //top horizontal trees
+        for (int i = TILE_SIZE; i < x; i += TILE_SIZE * 2) {
+            Tile botLeftOfTree = new Tile(i, TILE_SIZE, true, ID.TILE, img.getBotLeftOfTree());
+            Tile botRightOfTree = new Tile(i + TILE_SIZE, TILE_SIZE, true, ID.TILE, img.getBotRightOfTree());
+            manager.addOneTile(botLeftOfTree);
+            manager.addOneTile(botRightOfTree);
+        }
+        for (int i = x + (TILE_SIZE * 5); i < display.getDisplayWidth() - TILE_SIZE; i += TILE_SIZE * 2) {
+            Tile botLeftOfTree = new Tile(i, TILE_SIZE, true, ID.TILE, img.getBotLeftOfTree());
+            Tile botRightOfTree = new Tile(i + TILE_SIZE, TILE_SIZE, true, ID.TILE, img.getBotRightOfTree());
+            manager.addOneTile(botLeftOfTree);
+            manager.addOneTile(botRightOfTree);
+        }
+        
+        //dungeon entrance
+        manager.addOneTile(new Tile(x, TILE_SIZE, TILE_SIZE * 2,
+                TILE_SIZE * 2, true, ID.TILE, img.getBottomLeftOfDungeonEntrance()));
+        
+        Tile portalToMap1 = new Tile(x + (TILE_SIZE * 2), TILE_SIZE, TILE_SIZE, TILE_SIZE * 2,
+                false, ID.PORTAL, img.getDoorToDungeon());
+        manager.addOneTile(portalToMap1);
+        manager.addOneTile(portalToMap1);
+        portals.addPortal(portalToMap1);
+        portals.addPortalMapping(portalToMap1, 1);
+        
+        manager.addOneTile(new Tile(x + (TILE_SIZE * 3), TILE_SIZE, TILE_SIZE * 2, TILE_SIZE * 2,
+                true, ID.TILE, img.getBottomRightOfDungeonEntrance()));
+        
+        //top right corner
+        manager.addOneTile(new Tile(display.getDisplayWidth() - TILE_SIZE, TILE_SIZE, true, ID.TILE,
+                img.getBotLeftOfTree()));
+        
+        //right vertical trees
+        x = display.getDisplayWidth() - TILE_SIZE;
+        for (int j = TILE_SIZE * 2; j < display.getDisplayHeight() - TILE_SIZE; j += TILE_SIZE * 2) {
+            Tile topLeftOfTree = new Tile(x, j, true, ID.TILE, img.getTopLeftOfTree());
+            Tile botLeftOfTree = new Tile(x, j + TILE_SIZE, true, ID.TILE, img.getBotLeftOfTree());
+            manager.addOneTile(topLeftOfTree);
+            manager.addOneTile(botLeftOfTree);
+        }
+        
+        //left vertical trees
+        for (int j = TILE_SIZE * 2; j < display.getDisplayHeight() - (TILE_SIZE * 3); j += TILE_SIZE * 2) {
+            Tile topRightOfTree= new Tile(0, j, false, ID.TILE, img.getTopRightOfTree());
+            Tile botRightOfTree = new Tile(0, j + TILE_SIZE, false, ID.TILE, img.getBotRightOfTree());
+            manager.addOneTile(topRightOfTree);
+            manager.addOneTile(botRightOfTree);
+        }
+        
+        //weird statues
+        Tile weirdStatue = new Tile((display.getDisplayWidth() / 8) * 3, display.getDisplayHeight() / 2,
+                TILE_SIZE, TILE_SIZE * 2, true, ID.TILE, img.getWeirdStatue());
+        manager.addOneTile(weirdStatue);
+        Tile weirdStatue2 = new Tile((display.getDisplayWidth() / 8) * 5, 3 * (display.getDisplayHeight() / 4),
+                TILE_SIZE, TILE_SIZE * 2, true, ID.TILE, img.getWeirdStatue());
+        manager.addOneTile(weirdStatue2);
+        Tile weirdStatue3 = new Tile((display.getDisplayWidth() / 8) * 7, display.getDisplayHeight() / 2,
+                TILE_SIZE, TILE_SIZE * 2, true, ID.TILE, img.getWeirdStatue());
+        manager.addOneTile(weirdStatue3);
+        
+        //portal to map 9
+        Tile portalToMap9 = new Tile(0, display.getDisplayHeight() - (TILE_SIZE * 2), false, ID.PORTAL,
+                img.getPortal());
+        manager.addOneTile(portalToMap9);
+        portals.addPortal(portalToMap9);
+        portals.addPortalMapping(portalToMap9, 9);
+        
+        //bottom horizontal wall
+        drawTilesHorizontally(0, display.getDisplayHeight() - TILE_SIZE, 
+                display.getDisplayWidth(), true, ID.TILE, img.getWall05());
     }
 
     private void drawTilesHorizontally(int x, int y, int horizontalLength, boolean isWall, ID id, BufferedImage img) {

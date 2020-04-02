@@ -15,6 +15,7 @@ import java.util.List;
 public class GameManager {
     
     private Game game;
+    
     private Player player;
     private List<Enemy> enemies;
     private List<Tile> tiles;
@@ -122,32 +123,48 @@ public class GameManager {
     }
 
     private void playerInteractWithTiles() {
+        int windowWidth = game.getDisplay().getDisplayWidth();
+        int windowHeight = game.getDisplay().getDisplayHeight();
         for (Tile tile : game.getManager().getTiles()) {
             checkForCollision(tile);
-            if (tile.getID() == ID.PORTAL) {
-                if (player.getBounds().intersects(tile.getBounds()) && game.getMapID() == 1) {
-                    player.setX(21);
-                    player.setY(game.getDisplay().getDisplayHeight() / 3);
-                    game.changeMap(2);
-                } else if (player.getBounds().intersects(tile.getBounds()) && game.getMapID() == 2) {
-                    if (game.getPortals().getMappedPortal(tile) == 3) {
+            //i could probably reduce code here and produce same effect
+            if (tile.getID() == ID.PORTAL && player.getBounds().intersects(tile.getBounds())) {
+                int portalID = game.getPortals().getMappedPortal(tile);
+                if (game.getMapID() == 1) {
+                    if (portalID == 2) {
+                        player.setX(21);
+                        player.setY(windowHeight / 3);
+                        game.changeMap(2);
+                    } else if (portalID == 10) {
+                        player.setX(((windowWidth / 8) * 3) + 40);
+                        player.setY(61);
+                        game.changeMap(10);
+                    }
+                } else if (game.getMapID() == 2) {
+                    if (portalID == 3) {
                         player.setX(21);
                         player.setY(40);
                         game.changeMap(3);
-                    } else if (game.getPortals().getMappedPortal(tile) == 1) {
-                        player.setX(game.getDisplay().getDisplayWidth() - 41);
-                        player.setY(game.getDisplay().getDisplayHeight() / 3);
+                    } else if (portalID == 1) {
+                        player.setX(windowWidth - 41);
+                        player.setY(windowHeight / 3);
                         game.changeMap(1);
                     }
-                } else if (player.getBounds().intersects(tile.getBounds()) && game.getMapID() == 3) {
-                    if (game.getPortals().getMappedPortal(tile) == 4) {
+                } else if (game.getMapID() == 3) {
+                    if (portalID == 4) {
                         player.setX(21);
-                        player.setY(game.getDisplay().getDisplayHeight() - 40);
+                        player.setY(windowHeight - 40);
                         game.changeMap(4);
-                    } else if (game.getPortals().getMappedPortal(tile) == 2) {
+                    } else if (portalID == 2) {
                         player.setX(20);
-                        player.setY(game.getDisplay().getDisplayHeight() - 40);
+                        player.setY(windowHeight - 40);
                         game.changeMap(2);
+                    }
+                } else if (game.getMapID() == 10) {
+                    if (portalID == 1) {
+                        player.setX(21);
+                        player.setY(windowHeight / 3);
+                        game.changeMap(1);
                     }
                 }
             }

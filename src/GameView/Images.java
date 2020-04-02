@@ -31,6 +31,30 @@ public class Images {
     
     private BufferedImage laserFacingLeft;
     private BufferedImage laserFacingRight;
+    
+    //images for non-dungeons
+    private BufferedImage botLeftOfTree;
+    private BufferedImage botRightOfTree;
+    //these two dungeon entrance parts should be 40x40
+    private BufferedImage bottomLeftOfDungeonEntrance;
+    private BufferedImage bottomRightOfDungeonEntrance;
+    private BufferedImage bush;
+    private BufferedImage dirt;
+    //20x40
+    private BufferedImage doorToDungeon;
+    private BufferedImage flower;
+    private BufferedImage grass;
+    private BufferedImage hole;
+    private BufferedImage partRightAboveDoorToDungeon;
+    private BufferedImage sand;
+    private BufferedImage topLeftOfDungeonEntrance;
+    private BufferedImage topLeftOfTree;
+    private BufferedImage topPartOfDungeonEntrance;
+    private BufferedImage topRightOfDungeonEntrance;
+    private BufferedImage topRightOfTree;
+    private BufferedImage wall05;
+    //20x40
+    private BufferedImage weirdStatue;
 
     /**
      * The various forms of our player for animations
@@ -90,57 +114,17 @@ public class Images {
     //TODO i could refactor this and separate each into different methods resembling the img directory structure
     public Images() {
         player = ImageLoader.loadImage("./img/Player/LinkStandingLeft.png");
-        boss = ImageLoader.loadImage("./img/Dungeon/boss.png");
-        wall01 = ImageLoader.loadImage("./img/RegularBlueWall/wall01.png");
-        wall02 = ImageLoader.loadImage("./img/RegularBlueWall/wall02.png");
-        blackWall = ImageLoader.loadImage("./img/Dungeon/blackwall.png");
+        //need to get a new keyButton image
         keyButton = ImageLoader.loadImage("./img/Dungeon/keybutton.png");
-        laserFaceDown = ImageLoader.loadImage("./img/WallLaser/laserfacedown.png");
-        laserFaceUp = ImageLoader.loadImage("./img/WallLaser/laserfaceup.png");
-        marbleSwitch = ImageLoader.loadImage("./img/Dungeon/marbleswitch.png");
-        marbleSwitchSpace = ImageLoader.loadImage("./img/Dungeon/marbleswitchspace.png");
-        treasureChest = ImageLoader.loadImage("./img/Dungeon/treasurechest.png");
-        floor = ImageLoader.loadImage("./img/Dungeon/floor.png");
-        wall03 = ImageLoader.loadImage("./img/RegularBlueWall/wall03.png");
-        wall04 = ImageLoader.loadImage("./img/RegularBlueWall/wall04.png");
-        bird = ImageLoader.loadImage("./img/Dungeon/bird.png");
-        statue = ImageLoader.loadImage("./img/Dungeon/statue.png");
-        portal = ImageLoader.loadImage("./img/Dungeon/portal1.png");
         leftHeart = ImageLoader.loadImage("./img/heartLeft.png");
         rightHeart = ImageLoader.loadImage("./img/heartRight.png");
-        jar = ImageLoader.loadImage("./img/Dungeon/jar.png");
-        silverSquareWall = ImageLoader.loadImage("./img/Dungeon/silversquarewall.png");
-        silverSquare = ImageLoader.loadImage("./img/Dungeon/silversquarepressed.png");
-        voidSpace = ImageLoader.loadImage("./img/Dungeon/voidspace.png");
-        lockedDoor = ImageLoader.loadImage("./img/Dungeon/doortoboss.png");
-        laserFacingLeft = ImageLoader.loadImage("./img/WallLaser/LaserFaceLeft.png");
-        laserFacingRight = ImageLoader.loadImage("./img/WallLaser/LaserFaceRight.png");
         
-        playerStandingLeft = ImageLoader.loadImage("./img/Player/LinkStandingLeft.png");
-        playerStandingRight = ImageLoader.loadImage("./img/Player/LinkStandingRight.png");
-        playerRunningLeft = ImageLoader.loadImage("./img/Player/LinkRunningLeft.png");
-        playerRunningRight = ImageLoader.loadImage("./img/Player/LinkRunningRight.png");
-        playerRunningUpState1 = ImageLoader.loadImage("./img/Player/LinkRunningUpState1.png");
-        playerRunningUpState2 = ImageLoader.loadImage("./img/Player/LinkRunningUpState2.png");
-        playerRunningDownState1 = ImageLoader.loadImage("./img/Player/LinkRunningDownState1.png");
-        playerRunningDownState2 = ImageLoader.loadImage("./img/Player/LinkRunningDownState2.png");
-        
-        redPotion = ImageLoader.loadImage("./img/Item/Potion/Health/redpotion.png");
-        orangePotion = ImageLoader.loadImage("./img/Item/Potion/Health/orangepotion.png");
-        whitePotion = ImageLoader.loadImage("./img/Item/Potion/Health/whitepotion.png");
-        
-        bluePotion = ImageLoader.loadImage("./img/Item/Potion/Mana/bluepotion.png");
-        manaElixir = ImageLoader.loadImage("./img/Item/Potion/Mana/manaelixir.png");
-        powerElixir = ImageLoader.loadImage("./img/Item/Potion/Mana/powerelixir.png");
-        
-        sabre = ImageLoader.loadImage("./img/Item/Weapon/sabre.png");
-        soulSinger = ImageLoader.loadImage("./img/Item/Weapon/soulsinger.png");
-        royalKatana = ImageLoader.loadImage("./img/Item/Weapon/royalkatana.png");
-        
-        dragonRobe = ImageLoader.loadImage("./img/Item/Armor/dragonrobe.png");
-        bloodySuit = ImageLoader.loadImage("./img/Item/Armor/bloodysuit.png");
-        ancientBattleMail = ImageLoader.loadImage("./img/Item/Armor/ancientbattlemail.png");
-        genesis = ImageLoader.loadImage("./img/Item/Armor/genesis.png");
+        createPlayerForms();
+        createWeapons();
+        createArmors();
+        createPotions();
+        createWorld();
+        createDungeonImages();
     }
 
     public BufferedImage getWall01() {
@@ -230,6 +214,109 @@ public class Images {
     
     public BufferedImage getLockedDoor() {
         return lockedDoor;
+    }
+    
+    private void createDungeonImages() {
+        boss = ImageLoader.loadImage("./img/Dungeon/boss.png");
+        jar = ImageLoader.loadImage("./img/Dungeon/jar.png");
+        voidSpace = ImageLoader.loadImage("./img/Dungeon/voidspace.png");
+        treasureChest = ImageLoader.loadImage("./img/Dungeon/treasurechest.png");
+        floor = ImageLoader.loadImage("./img/Dungeon/floor.png");
+        bird = ImageLoader.loadImage("./img/Dungeon/bird.png");
+        statue = ImageLoader.loadImage("./img/Dungeon/statue.png");
+        createSquares();
+        createMarbles();
+        createWalls();
+        createWallLasers();
+        createDoors();
+    }
+    
+    private void createSquares() {
+        blackWall = ImageLoader.loadImage("./img/Dungeon/blackwall.png");
+        silverSquareWall = ImageLoader.loadImage("./img/Dungeon/silversquarewall.png");
+        silverSquare = ImageLoader.loadImage("./img/Dungeon/silversquarepressed.png");
+    }
+    
+    private void createMarbles() {
+        marbleSwitch = ImageLoader.loadImage("./img/Dungeon/marbleswitch.png");
+        marbleSwitchSpace = ImageLoader.loadImage("./img/Dungeon/marbleswitchspace.png");
+    }
+    
+    private void createWalls() {
+        wall01 = ImageLoader.loadImage("./img/RegularBlueWall/wall01.png");
+        wall02 = ImageLoader.loadImage("./img/RegularBlueWall/wall02.png");
+        wall03 = ImageLoader.loadImage("./img/RegularBlueWall/wall03.png");
+        wall04 = ImageLoader.loadImage("./img/RegularBlueWall/wall04.png");
+    }
+    
+    private void createWallLasers() {
+        laserFacingLeft = ImageLoader.loadImage("./img/WallLaser/LaserFaceLeft.png");
+        laserFacingRight = ImageLoader.loadImage("./img/WallLaser/LaserFaceRight.png");
+        laserFaceDown = ImageLoader.loadImage("./img/WallLaser/laserfacedown.png");
+        laserFaceUp = ImageLoader.loadImage("./img/WallLaser/laserfaceup.png");
+    }
+    
+    private void createDoors() {
+        lockedDoor = ImageLoader.loadImage("./img/Dungeon/doortoboss.png");
+        portal = ImageLoader.loadImage("./img/Dungeon/portal1.png");
+    }
+    
+    private void createPlayerForms() {
+        playerStandingLeft = ImageLoader.loadImage("./img/Player/LinkStandingLeft.png");
+        playerStandingRight = ImageLoader.loadImage("./img/Player/LinkStandingRight.png");
+        playerRunningLeft = ImageLoader.loadImage("./img/Player/LinkRunningLeft.png");
+        playerRunningRight = ImageLoader.loadImage("./img/Player/LinkRunningRight.png");
+        playerRunningUpState1 = ImageLoader.loadImage("./img/Player/LinkRunningUpState1.png");
+        playerRunningUpState2 = ImageLoader.loadImage("./img/Player/LinkRunningUpState2.png");
+        playerRunningDownState1 = ImageLoader.loadImage("./img/Player/LinkRunningDownState1.png");
+        playerRunningDownState2 = ImageLoader.loadImage("./img/Player/LinkRunningDownState2.png");
+    }
+    
+    private void createWeapons() {
+        sabre = ImageLoader.loadImage("./img/Item/Weapon/sabre.png");
+        soulSinger = ImageLoader.loadImage("./img/Item/Weapon/soulsinger.png");
+        royalKatana = ImageLoader.loadImage("./img/Item/Weapon/royalkatana.png");
+    }
+    
+    private void createArmors() {
+        dragonRobe = ImageLoader.loadImage("./img/Item/Armor/dragonrobe.png");
+        bloodySuit = ImageLoader.loadImage("./img/Item/Armor/bloodysuit.png");
+        ancientBattleMail = ImageLoader.loadImage("./img/Item/Armor/ancientbattlemail.png");
+        genesis = ImageLoader.loadImage("./img/Item/Armor/genesis.png");
+    }
+    
+    private void createPotions() {
+        redPotion = ImageLoader.loadImage("./img/Item/Potion/Health/redpotion.png");
+        orangePotion = ImageLoader.loadImage("./img/Item/Potion/Health/orangepotion.png");
+        whitePotion = ImageLoader.loadImage("./img/Item/Potion/Health/whitepotion.png");
+
+        bluePotion = ImageLoader.loadImage("./img/Item/Potion/Mana/bluepotion.png");
+        manaElixir = ImageLoader.loadImage("./img/Item/Potion/Mana/manaelixir.png");
+        powerElixir = ImageLoader.loadImage("./img/Item/Potion/Mana/powerelixir.png");
+    }
+    
+    private void createWorld() {
+        botLeftOfTree = ImageLoader.loadImage("./img/World/botLeftOfTree.png");
+        botRightOfTree = ImageLoader.loadImage("./img/World/botRightOfTree.png");
+        //these two dungeon entrance parts should be 60x60
+        bottomLeftOfDungeonEntrance = ImageLoader.loadImage("./img/World/bottomLeftOfDungeonEntrance.png");
+        bottomRightOfDungeonEntrance = ImageLoader.loadImage("./img/World/bottomRightOfDungeonEntrance.png");
+        bush = ImageLoader.loadImage("./img/World/bush.png");
+        dirt = ImageLoader.loadImage("./img/World/dirt.png");
+        //40x60
+        doorToDungeon = ImageLoader.loadImage("./img/World/doorToDungeon.png");
+        flower = ImageLoader.loadImage("./img/World/flower.png");
+        grass = ImageLoader.loadImage("./img/World/grass.png");
+        hole = ImageLoader.loadImage("./img/World/hole.png");
+        partRightAboveDoorToDungeon = ImageLoader.loadImage("./img/World/PartRightAboveDoorToDungeon.png");
+        sand = ImageLoader.loadImage("./img/World/sand.png");
+        topLeftOfDungeonEntrance = ImageLoader.loadImage("./img/World/topLeftOfDungeonEntrance.png");
+        topLeftOfTree = ImageLoader.loadImage("./img/World/topLeftOfTree.png");
+        topPartOfDungeonEntrance = ImageLoader.loadImage("./img/World/topPartOfDungeonEntrance.png");
+        topRightOfDungeonEntrance = ImageLoader.loadImage("./img/World/topRightOfDungeonEntrance.png");
+        topRightOfTree = ImageLoader.loadImage("./img/World/topRightOfTree.png");
+        wall05 = ImageLoader.loadImage("./img/World/wall05.png");
+        weirdStatue = ImageLoader.loadImage("./img/World/weirdStatue.png");
     }
 
     public BufferedImage getPlayer() {
@@ -330,5 +417,81 @@ public class Images {
 
     public BufferedImage getLaserFacingRight() {
         return laserFacingRight;
+    }
+
+    public BufferedImage getBotLeftOfTree() {
+        return botLeftOfTree;
+    }
+
+    public BufferedImage getBotRightOfTree() {
+        return botRightOfTree;
+    }
+
+    public BufferedImage getBottomLeftOfDungeonEntrance() {
+        return bottomLeftOfDungeonEntrance;
+    }
+
+    public BufferedImage getBottomRightOfDungeonEntrance() {
+        return bottomRightOfDungeonEntrance;
+    }
+
+    public BufferedImage getBush() {
+        return bush;
+    }
+
+    public BufferedImage getDoorToDungeon() {
+        return doorToDungeon;
+    }
+
+    public BufferedImage getFlower() {
+        return flower;
+    }
+
+    public BufferedImage getGrass() {
+        return grass;
+    }
+
+    public BufferedImage getHole() {
+        return hole;
+    }
+
+    public BufferedImage getPartRightAboveDoorToDungeon() {
+        return partRightAboveDoorToDungeon;
+    }
+
+    public BufferedImage getSand() {
+        return sand;
+    }
+
+    public BufferedImage getTopLeftOfDungeonEntrance() {
+        return topLeftOfDungeonEntrance;
+    }
+
+    public BufferedImage getTopLeftOfTree() {
+        return topLeftOfTree;
+    }
+
+    public BufferedImage getTopPartOfDungeonEntrance() {
+        return topPartOfDungeonEntrance;
+    }
+
+    public BufferedImage getTopRightOfDungeonEntrance() {
+        return topRightOfDungeonEntrance;
+    }
+
+    public BufferedImage getTopRightOfTree() {
+        return topRightOfTree;
+    }
+
+    public BufferedImage getWeirdStatue() {
+        return weirdStatue;
+    }
+
+    public BufferedImage getDirt() {
+        return dirt;
+    }
+
+    public BufferedImage getWall05() {
+        return wall05;
     }
 }
