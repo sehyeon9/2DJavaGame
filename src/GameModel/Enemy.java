@@ -129,4 +129,12 @@ public class Enemy extends GameObject {
     public boolean isAlive() {
         return health > 0;
     }
+    
+    public void takeDamage() {
+        
+    }
+    
+    public void useRandomSkill() {
+        
+    }
 }

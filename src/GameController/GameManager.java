@@ -59,6 +59,7 @@ public class GameManager {
         }
     }
 
+    //Order of tile, item, player, enemy really matter
     public void update() {
         for (Tile tile : tiles) {
             tile.update();
@@ -123,7 +124,6 @@ public class GameManager {
     private void playerInteractWithTiles() {
         for (Tile tile : game.getManager().getTiles()) {
             checkForCollision(tile);
-            //TODO: have player move to any neighboring maps instead of one
             if (tile.getID() == ID.PORTAL) {
                 if (player.getBounds().intersects(tile.getBounds()) && game.getMapID() == 1) {
                     player.setX(21);
@@ -182,6 +182,11 @@ public class GameManager {
         }
     }
 
+    /**
+     * x and y must not be integers, otherwise it will not be an accurate collision
+     * @param object any GameObject the player may come in contact with
+     * post: revert player's position
+     */
     private void checkForCollision(GameObject object) {
         if (object.isWall()) {
             double y = player.getYWithAccuracy();
@@ -205,6 +210,7 @@ public class GameManager {
         }
     }
 
+    //TODO: maybe a good way to go about this is put enemy.setHealth(enemy.getHealth() - player.getWeapon().getDamage();
     private void playerInteractWithEnemies(Enemy enemy) {
         if (player.getBoundsTop().intersects(enemy.getX(), enemy.getY() + enemy.getHeight(), enemy.getWidth(), 0.01)) {
             int y = player.getY();

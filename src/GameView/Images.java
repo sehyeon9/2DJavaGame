@@ -87,31 +87,32 @@ public class Images {
     private BufferedImage ancientBattleMail;
     private BufferedImage genesis;
     
+    //TODO i could refactor this and separate each into different methods resembling the img directory structure
     public Images() {
         player = ImageLoader.loadImage("./img/Player/LinkStandingLeft.png");
-        boss = ImageLoader.loadImage("./img/boss.png");
+        boss = ImageLoader.loadImage("./img/Dungeon/boss.png");
         wall01 = ImageLoader.loadImage("./img/RegularBlueWall/wall01.png");
         wall02 = ImageLoader.loadImage("./img/RegularBlueWall/wall02.png");
-        blackWall = ImageLoader.loadImage("./img/blackwall.png");
-        keyButton = ImageLoader.loadImage("./img/keybutton.png");
+        blackWall = ImageLoader.loadImage("./img/Dungeon/blackwall.png");
+        keyButton = ImageLoader.loadImage("./img/Dungeon/keybutton.png");
         laserFaceDown = ImageLoader.loadImage("./img/WallLaser/laserfacedown.png");
         laserFaceUp = ImageLoader.loadImage("./img/WallLaser/laserfaceup.png");
-        marbleSwitch = ImageLoader.loadImage("./img/marbleswitch.png");
-        marbleSwitchSpace = ImageLoader.loadImage("./img/marbleswitchspace.png");
-        treasureChest = ImageLoader.loadImage("./img/treasurechest.png");
-        floor = ImageLoader.loadImage("./img/floor.png");
+        marbleSwitch = ImageLoader.loadImage("./img/Dungeon/marbleswitch.png");
+        marbleSwitchSpace = ImageLoader.loadImage("./img/Dungeon/marbleswitchspace.png");
+        treasureChest = ImageLoader.loadImage("./img/Dungeon/treasurechest.png");
+        floor = ImageLoader.loadImage("./img/Dungeon/floor.png");
         wall03 = ImageLoader.loadImage("./img/RegularBlueWall/wall03.png");
         wall04 = ImageLoader.loadImage("./img/RegularBlueWall/wall04.png");
-        bird = ImageLoader.loadImage("./img/bird.png");
-        statue = ImageLoader.loadImage("./img/statue.png");
-        portal = ImageLoader.loadImage("./img/portal1.png");
+        bird = ImageLoader.loadImage("./img/Dungeon/bird.png");
+        statue = ImageLoader.loadImage("./img/Dungeon/statue.png");
+        portal = ImageLoader.loadImage("./img/Dungeon/portal1.png");
         leftHeart = ImageLoader.loadImage("./img/heartLeft.png");
         rightHeart = ImageLoader.loadImage("./img/heartRight.png");
-        jar = ImageLoader.loadImage("./img/jar.png");
-        silverSquareWall = ImageLoader.loadImage("./img/silversquarewall.png");
-        silverSquare = ImageLoader.loadImage("./img/silversquarepressed.png");
-        voidSpace = ImageLoader.loadImage("./img/voidspace.png");
-        lockedDoor = ImageLoader.loadImage("./img/doortoboss.png");
+        jar = ImageLoader.loadImage("./img/Dungeon/jar.png");
+        silverSquareWall = ImageLoader.loadImage("./img/Dungeon/silversquarewall.png");
+        silverSquare = ImageLoader.loadImage("./img/Dungeon/silversquarepressed.png");
+        voidSpace = ImageLoader.loadImage("./img/Dungeon/voidspace.png");
+        lockedDoor = ImageLoader.loadImage("./img/Dungeon/doortoboss.png");
         laserFacingLeft = ImageLoader.loadImage("./img/WallLaser/LaserFaceLeft.png");
         laserFacingRight = ImageLoader.loadImage("./img/WallLaser/LaserFaceRight.png");
         

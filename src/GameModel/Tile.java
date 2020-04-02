@@ -27,18 +27,30 @@ import java.awt.image.BufferedImage;
 public class Tile extends GameObject {
 
     private int x, y;
-    private static int width = 20;
-    private static int height = 20;
+    private int width;
+    private int height;
     private boolean isWall;
     private ID id;
     private BufferedImage img;
 
+    /**
+     * The default tile size for this game is 20
+     */
     public Tile(int x, int y, boolean isWall, ID id, BufferedImage img) {
         this.x = x;
         this.y = y;
         this.isWall = isWall;
         this.id = id;
         this.img = img;
+        width = 20;
+        height = 20;
+    }
+    
+    //this isn't used yet, but I plan to use it for other maps soon
+    public Tile(int x, int y, int width, int height, boolean isWall, ID id, BufferedImage img) {
+        this(x, y, isWall, id, img);
+        this.width = width;
+        this.height = height;
     }
 
     @Override

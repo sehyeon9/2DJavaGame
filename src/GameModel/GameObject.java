@@ -37,13 +37,11 @@ public abstract class GameObject {
     public abstract boolean isWall();
 
     /**
-     * You most likely do not need this method currently, but it is here just in case we scale the game later
      * sets the object's x position to the given, new x
      */
     public abstract void setX(int x);
 
     /**
-     * You most likely do not need this method currently, but it is here just in case we scale the game later
      * sets the object's y position to the given, new y
      */
     public abstract void setY(int y);

@@ -101,6 +101,7 @@ public class Game implements Runnable {
             drawMap2();
         } else if (mapID == 3) {
             drawMap3();
+            //this should be moved somewhere else
             if (!manager.getEnemies().contains(enemy)) {
                 manager.addEnemy(enemy);
             }
@@ -433,6 +434,8 @@ public class Game implements Runnable {
                 false, ID.TILE, img.getFloor());
     }
     
+    //TODO this is the final map which includes the boss and is not quite yet finished
+    //TODO i want to finish it after all the non-dungeon maps are implemented
     private void drawMap5() {
         //top left corner wall
         manager.addOneTile(new Tile(0, TILE_SIZE, true, ID.TILE, img.getWall01()));
