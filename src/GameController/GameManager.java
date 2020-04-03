@@ -3,9 +3,11 @@ package GameController;
 import GameModel.*;
 import GameModel.Inventory.Item;
 import Identifier.ID;
-import Identifier.Item.Type;
+import Identifier.Item.ItemType;
+import Identifier.Portal.PortalID;
 
 import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.util.*;
 import java.util.List;
 
@@ -20,6 +22,7 @@ public class GameManager {
     private List<Enemy> enemies;
     private List<Tile> tiles;
     private List<Item> items;
+    private PortalID portals;
     
     private boolean guardianHasDied;
     private boolean marbleUnlocked;
@@ -35,6 +38,7 @@ public class GameManager {
         this.enemies = new LinkedList<>();
         this.tiles = new LinkedList<>();
         this.items = new LinkedList<>();
+        portals = new PortalID();
         guardianHasDied = false;
         marbleUnlocked = false;
     }
@@ -86,8 +90,32 @@ public class GameManager {
         }
     }
     
-    public void addOneTile(Tile tile) {
+    public void addTile(int x, int y, BufferedImage image) {
+        Tile tile = new Tile(x, y, image, game);
         tiles.add(tile);
+    }
+    
+    public void addTile(int x, int y, int width, int height, BufferedImage img) {
+        Tile tile = new Tile(x, y, width, height, img, game);
+        tiles.add(tile);
+    }
+    
+    public void addPortal(int x, int y, BufferedImage image, int mapID) {
+        Tile tile = new Tile(x, y, image, game);
+        tiles.add(tile);
+        if (image == game.getImg().getPortal()) {
+            portals.addPortal(tile);
+            portals.addPortalMapping(tile, mapID);
+        }
+    }
+
+    public void addPortal(int x, int y, int width, int height, BufferedImage image, int mapID) {
+        Tile tile = new Tile(x, y, width, height, image, game);
+        tiles.add(tile);
+        if (image == game.getImg().getPortal()) {
+            portals.addPortal(tile);
+            portals.addPortalMapping(tile, mapID);
+        }
     }
     
     public void removeTile(Tile tile) {
@@ -129,7 +157,7 @@ public class GameManager {
             checkForCollision(tile);
             //i could probably reduce code here and produce same effect
             if (tile.getID() == ID.PORTAL && player.getBounds().intersects(tile.getBounds())) {
-                int portalID = game.getPortals().getMappedPortal(tile);
+                int portalID = portals.getMappedPortal(tile);
                 if (game.getMapID() == 1) {
                     if (portalID == 2) {
                         player.setX(21);
@@ -165,6 +193,10 @@ public class GameManager {
                         player.setX(21);
                         player.setY(windowHeight / 3);
                         game.changeMap(1);
+                    } else if (portalID == 9) {
+                        player.setX(windowWidth - 40);
+                        player.setY(windowHeight - 40);
+                        game.changeMap(9);
                     }
                 }
             }
@@ -176,7 +208,7 @@ public class GameManager {
     private void playerInteractWithJars(Tile tile) {
         if (player.getBounds().intersects(tile.getBounds()) && tile.getID() == ID.JAR && game.getKeyHandler().interact) {
             tile.setTileProperty(false, ID.TILE, game.getImg().getFloor());
-            Item weapon = new Item(tile.getX(), tile.getY(), true, Type.Weapon, "sabre", game.getImg().getSabre());
+            Item weapon = new Item(tile.getX(), tile.getY(), true, ItemType.Weapon, "sabre", game.getImg().getSabre());
             addItem(weapon);
         }
     }

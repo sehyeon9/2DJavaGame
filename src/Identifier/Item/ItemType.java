@@ -1,6 +1,6 @@
 package Identifier.Item;
 
-public enum Type {
+public enum ItemType {
     
     HP_Potion,
     MP_Potion,

@@ -2,7 +2,7 @@ package GameModel.Inventory;
 
 import GameModel.GameObject;
 import Identifier.ID;
-import Identifier.Item.Type;
+import Identifier.Item.ItemType;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -15,7 +15,7 @@ import java.awt.image.BufferedImage;
  */
 public class Item extends GameObject {
     
-    private Type type;
+    private ItemType itemType;
     private String name;
     private BufferedImage img;
     private int x;
@@ -25,8 +25,8 @@ public class Item extends GameObject {
     private static final int width = 15;
     private static final int height = 15;
     
-    public Item(int x, int y, boolean isWall, Type type, String name, BufferedImage img) {
-        this.type = type;
+    public Item(int x, int y, boolean isWall, ItemType itemType, String name, BufferedImage img) {
+        this.itemType = itemType;
         this.name = name;
         this.img = img;
         this.x = x;
@@ -34,8 +34,8 @@ public class Item extends GameObject {
         this.isWall = isWall;
     }
     
-    public Type getType() {
-        return type;
+    public ItemType getItemType() {
+        return itemType;
     }
     
     public String getName() {
