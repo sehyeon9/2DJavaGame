@@ -15,6 +15,8 @@ public class Images {
     private BufferedImage marbleSwitch;
     private BufferedImage marbleSwitchSpace;
     private BufferedImage treasureChest;
+    private BufferedImage key;
+    private BufferedImage unlockedChest;
     private BufferedImage floor;
     private BufferedImage wall03;
     private BufferedImage wall04;
@@ -55,6 +57,20 @@ public class Images {
     private BufferedImage wall05;
     //20x40
     private BufferedImage weirdStatue;
+    
+    /** specifically for map 6 (where the player first spawns when starting game) */
+    private BufferedImage topLeftCorner;
+    private BufferedImage topRightCorner;
+    private BufferedImage botLeftCorner;
+    private BufferedImage botRightCorner;
+    private BufferedImage topWall;
+    private BufferedImage leftWall;
+    private BufferedImage rightWall;
+    private BufferedImage bottomWall;
+    //house should be 80x80
+    private BufferedImage house;
+    private BufferedImage yard;
+    private BufferedImage fence;
 
     /**
      * The various forms of our player for animations
@@ -119,6 +135,7 @@ public class Images {
         leftHeart = ImageLoader.loadImage("./img/heartLeft.png");
         rightHeart = ImageLoader.loadImage("./img/heartRight.png");
         
+        createPlayerSpawnMap();
         createPlayerForms();
         createWeapons();
         createArmors();
@@ -162,6 +179,14 @@ public class Images {
 
     public BufferedImage getTreasureChest() {
         return treasureChest;
+    }
+    
+    public BufferedImage getKey() {
+        return key;
+    }
+    
+    public BufferedImage getUnlockedChest() {
+        return unlockedChest;
     }
     
     public BufferedImage getFloor() {
@@ -216,11 +241,27 @@ public class Images {
         return lockedDoor;
     }
     
+    private void createPlayerSpawnMap() {
+        topLeftCorner = ImageLoader.loadImage("./img/World/PlayerSpawn/topLeftCorner.png");
+        topRightCorner = ImageLoader.loadImage("./img/World/PlayerSpawn/topRightCorner.png");
+        botLeftCorner = ImageLoader.loadImage("./img/World/PlayerSpawn/botLeftCorner.png");
+        botRightCorner = ImageLoader.loadImage("./img/World/PlayerSpawn/botRightCorner.png");
+        topWall = ImageLoader.loadImage("./img/World/PlayerSpawn/topWall.png");
+        leftWall = ImageLoader.loadImage("./img/World/PlayerSpawn/leftWall.png");
+        rightWall = ImageLoader.loadImage("./img/World/PlayerSpawn/rightWall.png");
+        bottomWall = ImageLoader.loadImage("./img/World/PlayerSpawn/bottomWall.png");
+        house = ImageLoader.loadImage("./img/World/PlayerSpawn/house.png");
+        yard = ImageLoader.loadImage("./img/World/PlayerSpawn/yard.png");
+        fence = ImageLoader.loadImage("./img/World/PlayerSpawn/fence.png");
+    }
+    
     private void createDungeonImages() {
         boss = ImageLoader.loadImage("./img/Dungeon/boss.png");
         jar = ImageLoader.loadImage("./img/Dungeon/jar.png");
         voidSpace = ImageLoader.loadImage("./img/Dungeon/voidspace.png");
         treasureChest = ImageLoader.loadImage("./img/Dungeon/treasurechest.png");
+        key = ImageLoader.loadImage("./img/Dungeon/key.png");
+        unlockedChest = ImageLoader.loadImage("./img/Dungeon/unlockedChest.png");
         floor = ImageLoader.loadImage("./img/Dungeon/floor.png");
         bird = ImageLoader.loadImage("./img/Dungeon/bird.png");
         statue = ImageLoader.loadImage("./img/Dungeon/statue.png");
@@ -493,5 +534,49 @@ public class Images {
 
     public BufferedImage getWall05() {
         return wall05;
+    }
+
+    public BufferedImage getTopLeftCorner() {
+        return topLeftCorner;
+    }
+
+    public BufferedImage getTopRightCorner() {
+        return topRightCorner;
+    }
+
+    public BufferedImage getBotLeftCorner() {
+        return botLeftCorner;
+    }
+
+    public BufferedImage getBotRightCorner() {
+        return botRightCorner;
+    }
+
+    public BufferedImage getTopWall() {
+        return topWall;
+    }
+
+    public BufferedImage getLeftWall() {
+        return leftWall;
+    }
+
+    public BufferedImage getRightWall() {
+        return rightWall;
+    }
+
+    public BufferedImage getBottomWall() {
+        return bottomWall;
+    }
+
+    public BufferedImage getHouse() {
+        return house;
+    }
+
+    public BufferedImage getYard() {
+        return yard;
+    }
+
+    public BufferedImage getFence() {
+        return fence;
     }
 }

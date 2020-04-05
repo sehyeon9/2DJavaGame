@@ -31,7 +31,12 @@ public class Inventory {
     
     public void removeItem(Item item) {
         if (inventory.size() > 0) {
-            inventory.remove(item);
+            if (inventory.get(item) > 1) {
+                inventory.put(item, inventory.get(item) - 1);
+            } else {
+                inventory.remove(item);
+                uniqueItems.remove(item.getName().toLowerCase());
+            }
         }
     }
     
@@ -41,6 +46,10 @@ public class Inventory {
     
     public Set<String> getUniqueItems() {
         return uniqueItems;
+    }
+    
+    public boolean isFull() {
+        return size >= 10;
     }
     
 }

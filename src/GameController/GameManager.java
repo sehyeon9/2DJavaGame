@@ -23,6 +23,8 @@ public class GameManager {
     private List<Tile> tiles;
     private List<Item> items;
     private PortalID portals;
+    private int windowWidth;
+    private int windowHeight;
     
     private boolean guardianHasDied;
     private boolean marbleUnlocked;
@@ -34,6 +36,8 @@ public class GameManager {
     
     public GameManager(Player player, Game game) {
         this.game = game;
+        windowWidth = 400;
+        windowHeight = 400;
         this.player = player;
         this.enemies = new LinkedList<>();
         this.tiles = new LinkedList<>();
@@ -66,9 +70,9 @@ public class GameManager {
 
     //Order of tile, item, player, enemy really matter
     public void update() {
-        for (Tile tile : tiles) {
-            tile.update();
-        }
+//        for (Tile tile : tiles) {
+//            tile.update();
+//        }
         for (Item item : items) {
             item.update();
         }
@@ -103,7 +107,7 @@ public class GameManager {
     public void addPortal(int x, int y, BufferedImage image, int mapID) {
         Tile tile = new Tile(x, y, image, game);
         tiles.add(tile);
-        if (image == game.getImg().getPortal()) {
+        if (image == game.getImg().getPortal() || image == game.getImg().getDoorToDungeon()) {
             portals.addPortal(tile);
             portals.addPortalMapping(tile, mapID);
         }
@@ -112,7 +116,7 @@ public class GameManager {
     public void addPortal(int x, int y, int width, int height, BufferedImage image, int mapID) {
         Tile tile = new Tile(x, y, width, height, image, game);
         tiles.add(tile);
-        if (image == game.getImg().getPortal()) {
+        if (image == game.getImg().getPortal() || image == game.getImg().getDoorToDungeon()) {
             portals.addPortal(tile);
             portals.addPortalMapping(tile, mapID);
         }
@@ -151,65 +155,117 @@ public class GameManager {
     }
 
     private void playerInteractWithTiles() {
-        int windowWidth = game.getDisplay().getDisplayWidth();
-        int windowHeight = game.getDisplay().getDisplayHeight();
-        for (Tile tile : game.getManager().getTiles()) {
+        for (Tile tile : tiles) {
             checkForCollision(tile);
-            //i could probably reduce code here and produce same effect
-            if (tile.getID() == ID.PORTAL && player.getBounds().intersects(tile.getBounds())) {
-                int portalID = portals.getMappedPortal(tile);
-                if (game.getMapID() == 1) {
-                    if (portalID == 2) {
-                        player.setX(21);
-                        player.setY(windowHeight / 3);
-                        game.changeMap(2);
-                    } else if (portalID == 10) {
-                        player.setX(((windowWidth / 8) * 3) + 40);
-                        player.setY(61);
-                        game.changeMap(10);
-                    }
-                } else if (game.getMapID() == 2) {
-                    if (portalID == 3) {
-                        player.setX(21);
-                        player.setY(40);
-                        game.changeMap(3);
-                    } else if (portalID == 1) {
-                        player.setX(windowWidth - 41);
-                        player.setY(windowHeight / 3);
-                        game.changeMap(1);
-                    }
-                } else if (game.getMapID() == 3) {
-                    if (portalID == 4) {
-                        player.setX(21);
-                        player.setY(windowHeight - 40);
-                        game.changeMap(4);
-                    } else if (portalID == 2) {
-                        player.setX(20);
-                        player.setY(windowHeight - 40);
-                        game.changeMap(2);
-                    }
-                } else if (game.getMapID() == 10) {
-                    if (portalID == 1) {
-                        player.setX(21);
-                        player.setY(windowHeight / 3);
-                        game.changeMap(1);
-                    } else if (portalID == 9) {
-                        player.setX(windowWidth - 40);
-                        player.setY(windowHeight - 40);
-                        game.changeMap(9);
-                    }
+            playerInteractWithPortal(tile);
+            playerInteractWithJar(tile);
+            playerInteractWithMarble(tile);
+            playerInteractWithChest(tile);
+        }
+    }
+    
+    private void playerInteractWithPortal(Tile tile) {
+        //i could probably reduce code here and produce same effect
+        if (tile.getID() == ID.PORTAL && player.getBounds().intersects(tile.getBounds())) {
+            int portalID = portals.getMappedPortal(tile);
+            if (game.getMapID() == 1) {
+                if (portalID == 2) {
+                    player.setX(21);
+                    player.setY(windowHeight / 3);
+                    game.changeMap(2);
+                } else if (portalID == 10) {
+                    player.setX(((windowWidth / 8) * 3) + 40);
+                    player.setY(61);
+                    game.changeMap(10);
+                }
+            } else if (game.getMapID() == 2) {
+                if (portalID == 3) {
+                    player.setX(21);
+                    player.setY(40);
+                    game.changeMap(3);
+                } else if (portalID == 1) {
+                    player.setX(windowWidth - 41);
+                    player.setY(windowHeight / 3);
+                    game.changeMap(1);
+                }
+            } else if (game.getMapID() == 3) {
+                if (portalID == 4) {
+                    player.setX(21);
+                    player.setY(windowHeight - 40);
+                    game.changeMap(4);
+                } else if (portalID == 2) {
+                    player.setX(20);
+                    player.setY(windowHeight - 40);
+                    game.changeMap(2);
+                }
+            } else if (game.getMapID() == 4) {
+                if (portalID == 5) {
+                    game.changeMap(5);
+                } else if (portalID == 3) {
+                    player.setX(windowWidth - 40);
+                    game.changeMap(3);
+                }
+            } else if (game.getMapID() == 5) {
+                if (portalID == 4) {
+                    game.changeMap(4);
+                }
+            } else if (game.getMapID() == 6) {
+                if (portalID == 7) {
+                    player.setX(20);
+                    game.changeMap(7);
+                }
+            } else if (game.getMapID() == 7) {
+                if (portalID == 6) {
+                    player.setX(windowWidth - 40);
+                    game.changeMap(6);
+                } else if (portalID == 8) {
+                    player.setX(21);
+                    game.changeMap(8);
+                } else if (portalID == 9) {
+                    player.setY(40);
+                    game.changeMap(9);
+                }
+            } else if (game.getMapID() == 8) {
+                if (portalID == 7) {
+                    player.setX(windowWidth - 40);
+                    game.changeMap(7);
+                }
+            } else if (game.getMapID() == 9) {
+                if (portalID == 7) {
+                    player.setY(windowHeight - 40);
+                    game.changeMap(7);
+                } else if (portalID == 10) {
+                    player.setX(20);
+                    player.setY(windowHeight - 40);
+                    game.changeMap(10);
+                }
+            } else if (game.getMapID() == 10) {
+                if (portalID == 1) {
+                    player.setX(21);
+                    player.setY(windowHeight / 3);
+                    game.changeMap(1);
+                } else if (portalID == 9) {
+                    player.setX(windowWidth - 40);
+                    player.setY(windowHeight - 40);
+                    game.changeMap(9);
                 }
             }
-            playerInteractWithJars(tile);
-            playerInteractWithMarble(tile);
         }
     }
 
-    private void playerInteractWithJars(Tile tile) {
+    private void playerInteractWithJar(Tile tile) {
         if (player.getBounds().intersects(tile.getBounds()) && tile.getID() == ID.JAR && game.getKeyHandler().interact) {
             tile.setTileProperty(false, ID.TILE, game.getImg().getFloor());
-            Item weapon = new Item(tile.getX(), tile.getY(), true, ItemType.Weapon, "sabre", game.getImg().getSabre());
-            addItem(weapon);
+            //certain jars drop certain items
+            if (tile.getX() == 20 && tile.getY() == 60) {
+                Item weapon = new Item(tile.getX(), tile.getY(), true, ItemType.Weapon, "sabre",
+                        game.getImg().getSabre());
+                addItem(weapon);
+            } else if (tile.getX() == 360 && tile.getY() == 360) {
+                Item key = new Item(tile.getX(), tile.getY(), true, ItemType.Key, "key",
+                        game.getImg().getKey());
+                addItem(key);
+            }
         }
     }
 
@@ -218,7 +274,7 @@ public class GameManager {
         for (Item item : game.getManager().getItems()) {
             checkForCollision(item);
             if (player.getBounds().intersects(item.getBounds()) && game.getKeyHandler().interact) {
-                if (item.getImg() == game.getImg().getSabre()) {
+                if (!player.getInventory().isFull()) {
                     player.getInventory().addItem(item);
                     removedItems.add(item);
                 }
@@ -302,7 +358,8 @@ public class GameManager {
     
     //TODO this only checks for one weapon so far as the others are not yet implemented
     private boolean isPlayerArmed() {
-        return player.getInventory().getUniqueItems().contains("sabre");
+        Set<String> weapons = player.getInventory().getUniqueItems();
+        return weapons.contains("sabre");
     }
     
     private void unlockMarbleFeature() {
@@ -315,8 +372,31 @@ public class GameManager {
         if (player.getBounds().intersects(tile.getBounds()) && tile.getID() == ID.MARBLE && marbleUnlocked
                 && game.getKeyHandler().interact && game.getMapID() == 1) {
             game.changeMap(3);
-            player.setX(game.getDisplay().getDisplayWidth() / 2);
-            player.setY(game.getDisplay().getDisplayHeight() / 2);
+            player.setX(windowWidth / 2);
+            player.setY(windowHeight / 2);
+        }
+    }
+    
+    //the logic isn't there yet, but once implemented, this allows teleportation tiles to start being drawn to map 4
+    //once the player travels from map 3 to 4, the correct teleportation pattern will allow the player to get to
+    //      the bottom right button on the floor
+    //the button, once activated, moves the player back to map 10, right outside the dungeon entrance
+    //when player enters the portal from map 3 to map 4 again, they will notice that map 4 is changed
+    //the player did not spawn in the usual place, rather,
+    //the player spawned at the very bottom on the central path that leads to map 5
+    //map 5 is now unlocked and the final boss is waiting
+    private void playerInteractWithChest(Tile tile) {
+        if (player.getBounds().intersects(tile.getBounds()) && tile.getID() == ID.CONTAINER &&
+                game.getKeyHandler().interact && game.getMapID() == 3 && 
+                player.getInventory().getUniqueItems().contains("key")) {
+            //if the player doesn't have a key for the chest, nothing happens
+            for (Item item : player.getInventory().getInventory().keySet()) {
+                if (item.getName().equalsIgnoreCase("key")) {
+                    player.getInventory().removeItem(item);
+                    tile.setTileProperty(true, ID.TILE, game.getImg().getUnlockedChest());
+                    break;
+                }
+            }
         }
     }
     

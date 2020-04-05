@@ -75,11 +75,14 @@ public class Tile extends GameObject {
             img == images.getSabre() || img == images.getStatue() || img == images.getBottomLeftOfDungeonEntrance() ||
             img == images.getBottomRightOfDungeonEntrance() || img == images.getPartRightAboveDoorToDungeon() ||
             img == images.getTopLeftOfDungeonEntrance() || img == images.getTopPartOfDungeonEntrance() ||
-            img == images.getTopRightOfDungeonEntrance()) {
+            img == images.getTopRightOfDungeonEntrance() || img == images.getBotLeftCorner() || 
+            img == images.getBotRightCorner() || img == images.getBottomWall() || img == images.getFence() ||
+            img == images.getHouse() || img == images.getLeftWall() || img == images.getRightWall() ||
+            img == images.getTopLeftCorner() || img == images.getTopRightCorner() || img == images.getTopWall()) {
             isWall = true;
             id = ID.TILE;
         } else {
-            if (img == images.getPortal()) {
+            if (img == images.getPortal() || img == images.getDoorToDungeon()) {
                 isWall = false;
                 id = ID.PORTAL;
             } else if (img == images.getMarbleSwitch() || img == images.getMarbleSwitchSpace()) {
@@ -91,7 +94,8 @@ public class Tile extends GameObject {
             } else if (img == images.getTreasureChest()) {
                 isWall = true;
                 id = ID.CONTAINER;
-            } else if (img == images.getFloor() || img == images.getDirt() || img == images.getGrass()) {
+            } else if (img == images.getFloor() || img == images.getDirt() ||
+                    img == images.getGrass() || img == images.getYard()) {
                 isWall = false;
                 id = ID.TILE;
             } else if (img == images.getJar()) {
